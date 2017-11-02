@@ -3,11 +3,14 @@ package tr.com.mis49m.sqlitelab;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,14 +18,10 @@ public class MainActivity extends AppCompatActivity {
     EditText etID, etName, etPhone;
     Button btnInsert, btnUpdate, btnDelete;
 
-    DatabaseHandler databaseHandler;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        databaseHandler = new DatabaseHandler(MainActivity.this);
 
         //-- read ui references
         tvCount = (TextView) findViewById(R.id.tv_count);
@@ -39,34 +38,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void insert(View view){
 
-        Contact contact = new Contact();
-        contact.setName(etName.getText().toString());
-        contact.setPhoneNumber(etPhone.getText().toString());
-
-        long r = databaseHandler.insertContact(contact);
-
         clearValues();
     }
 
     public void getContact(View view){
-
-        int id = Integer.valueOf( etID.getText().toString());
-        Contact contact = databaseHandler.getContact(id);
-
-        etName.setText(contact.getName());
-        etPhone.setText(contact.getPhoneNumber());
 
         isUpdateForm(true);
     }
 
     public void update(View view){
 
-        Contact contact = new Contact();
-        contact.setName(etName.getText().toString());
-        contact.setPhoneNumber(etPhone.getText().toString());
-        contact.setId( Integer.valueOf(etID.getText().toString()) );
-
-        databaseHandler.update(contact);
 
         clearValues();
         isUpdateForm(false);
